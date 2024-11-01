@@ -6,6 +6,27 @@
 
     $correo = $_POST['correo'];
     $contrasena = $_POST['contrasena'];
+
+    if(empty($correo) || empty($contrasena)) {
+        echo '
+            <script>
+                alert("Por favor, ingrese tanto usuario como contraseña.");
+                window.location = "../registro.php";
+            </script>
+        ';
+        exit();
+    }
+
+    if(!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        echo '
+            <script>
+                alert("Por favor, ingrese un correo electrónico válido.");
+                window.location = "../registro.php";
+            </script>
+        ';
+        exit();
+    }
+
     $contrasena = hash('sha512', $contrasena);
 
     $validar_login = mysqli_query($conexion,"SELECT * FROM usuarios WHERE correo='$correo'
